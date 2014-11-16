@@ -85,6 +85,7 @@ public class OVRPlayerController : MonoBehaviour
 
 	protected CharacterController Controller = null;
 	protected OVRCameraRig CameraController = null;
+	protected Plant plant = null;
 
 	private float MoveScaleMultiplier = 1.0f;
 	private float RotationScaleMultiplier = 1.0f;
@@ -97,6 +98,7 @@ public class OVRPlayerController : MonoBehaviour
 	void Awake()
 	{
 		Controller = gameObject.GetComponent<CharacterController>();
+		plant = gameObject.GetComponent<Plant>();
 
 		if(Controller == null)
 			Debug.LogWarning("OVRPlayerController: No CharacterController attached.");
@@ -182,13 +184,18 @@ public class OVRPlayerController : MonoBehaviour
 
 		if (predictedXZ != actualXZ)
 			MoveThrottle += (actualXZ - predictedXZ) / (SimulationRate * Time.deltaTime);
+
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			plant.bite();
+		}
 	}
 
 	public virtual void UpdateMovement()
 	{
 		if (HaltUpdateMovement)
 			return;
-
+		/*
 		bool moveForward = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
 		bool moveLeft = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
 		bool moveRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
@@ -237,7 +244,7 @@ public class OVRPlayerController : MonoBehaviour
 			MoveThrottle += dirXform.TransformDirection(Vector3.left * moveInfluence * transform.lossyScale.x) * BackAndSideDampen;
 			if (moveRight)
 			MoveThrottle += dirXform.TransformDirection(Vector3.right * moveInfluence * transform.lossyScale.x) * BackAndSideDampen;
-
+		*/
 		bool curHatLeft = OVRGamepadController.GPC_GetButton(OVRGamepadController.Button.LeftShoulder);
 
 		Vector3 euler = transform.rotation.eulerAngles;
@@ -266,6 +273,7 @@ public class OVRPlayerController : MonoBehaviour
 		if (!SkipMouseRotation)
 			euler.y += Input.GetAxis("Mouse X") * rotateInfluence * 3.25f;
 
+		/*
 		moveInfluence = SimulationRate * Time.deltaTime * Acceleration * 0.1f * MoveScale * MoveScaleMultiplier;
 
 #if !UNITY_ANDROID // LeftTrigger not avail on Android game pad
@@ -290,7 +298,7 @@ public class OVRPlayerController : MonoBehaviour
 			if(leftAxisX > 0.0f)
 				MoveThrottle += leftAxisX
 				* dirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen;
-
+		*/
 		float rightAxisX = OVRGamepadController.GPC_GetAxis(OVRGamepadController.Axis.RightXAxis);
 
 		euler.y += rightAxisX * rotateInfluence;

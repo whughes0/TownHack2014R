@@ -1,8 +1,10 @@
 private var motor : CharacterMotor;
+//private var plant : PlantBite;
 
 // Use this for initialization
 function Awake () {
 	motor = GetComponent(CharacterMotor);
+	//plant = GetComponent(PlantBite);
 }
 
 // Update is called once per frame
@@ -28,8 +30,12 @@ function Update () {
 	}
 	
 	// Apply the direction to the CharacterMotor
-	motor.inputMoveDirection = transform.rotation * directionVector;
-	motor.inputJump = Input.GetButton("Jump");
+	//motor.inputMoveDirection = transform.rotation * directionVector;
+	//motor.inputJump = Input.GetButton("Jump");
+	
+	//if(Input.GetButton("Jump")) {
+	//	plant.bite();
+	//}
 }
 
 // Require a character controller to be attached to the same game object
