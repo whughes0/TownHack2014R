@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject spawnedObject;
 	public int spawnSpeed = 10;
 
-	public int GAME_SCORE = 0;
+	private int gameScore = 0;
 
 	private int tick = 0;
 
@@ -28,6 +28,16 @@ public class GameManager : MonoBehaviour {
 		if (tick / 60 / 5 > 1 && spawnSpeed > 1) {
 			tick -= (60 * 5);
 			spawnSpeed--;
+			this.incrementScore();
 		}
+	}
+
+	public void incrementScore() {
+		this.gameScore++;
+		this.gameObject.GetComponentInChildren<GUIText> ().text = "Score : " + gameScore;
+	}
+	public void decrementScore() {
+		this.gameScore--;
+		this.gameObject.GetComponentInChildren<GUIText> ().text = "Score : " + gameScore;
 	}
 }
